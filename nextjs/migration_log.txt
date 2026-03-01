@@ -1,0 +1,61 @@
+[dotenv@17.2.4] injecting env (7) from .env.local -- tip: ⚙️  enable debug logging with { debug: true }
+Connected to database.
+Reading schema file...
+Found 25 statements.
+Executing statement 1/25: -- SEAMUNs Database Schema (PostgreSQL/Neon)
+-- Cr...
+Executing statement 2/25: -- ============================================
+--...
+Executing statement 3/25: CREATE INDEX IF NOT EXISTS idx_conferences_status ...
+Executing statement 4/25: CREATE INDEX IF NOT EXISTS idx_conferences_start_d...
+Executing statement 5/25: CREATE INDEX IF NOT EXISTS idx_conferences_locatio...
+Executing statement 6/25: -- ============================================
+--...
+Executing statement 7/25: CREATE INDEX IF NOT EXISTS idx_committees_conferen...
+Executing statement 8/25: -- ============================================
+--...
+❌ Error executing statement 8:
+-- ============================================
+-- AWARDS TABLE (Earned by users)
+-- ============================================
+CREATE TABLE IF NOT EXISTS awards (
+    award_id SERIAL PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    conference_id INT NOT NULL REFERENCES conferences(conference_id) ON DELETE CASCADE,
+    award_type TEXT NOT NULL,
+    committee TEXT,
+    country TEXT,
+    award_date DATE,
+    notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+)
+Error details: error: column "user_id" referenced in foreign key constraint does not exist
+    at xn.parseErrorMessage (/Users/phil/Documents/SEAMUN copy/nextjs/node_modules/@neondatabase/serverless/index.js:954:41)
+    at xn.handlePacket (/Users/phil/Documents/SEAMUN copy/nextjs/node_modules/@neondatabase/serverless/index.js:922:75)
+    at xn.parse (/Users/phil/Documents/SEAMUN copy/nextjs/node_modules/@neondatabase/serverless/index.js:910:36)
+    at S.<anonymous> (/Users/phil/Documents/SEAMUN copy/nextjs/node_modules/@neondatabase/serverless/index.js:961:16)
+    at S.emit (/Users/phil/Documents/SEAMUN copy/nextjs/node_modules/@neondatabase/serverless/index.js:316:79)
+    at WebSocket.<anonymous> (/Users/phil/Documents/SEAMUN copy/nextjs/node_modules/@neondatabase/serverless/index.js:402:19)
+    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:827:20)
+    at WebSocket.dispatchEvent (node:internal/event_target:762:26)
+    at fireEvent (node:internal/deps/undici/undici:11663:14)
+    at websocketMessageReceived (node:internal/deps/undici/undici:11685:7) {
+  length: 141,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'tablecmds.c',
+  line: '11908',
+  routine: 'transformColumnNameList'
+}
+❌ Migration failed.

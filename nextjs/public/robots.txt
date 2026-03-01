@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# Host
+Host: https://tracker.seamuns.org
+
+# Sitemaps
+Sitemap: https://tracker.seamuns.org/sitemap.xml
+Sitemap: https://tracker.seamuns.org/server-sitemap.xml

@@ -1,0 +1,22 @@
+{
+    "name": "SEAMUNs - Conference Tracker",
+    "short_name": "SEAMUNs",
+    "description": "Track Model United Nations conferences across South East Asia",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4A90D9",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon"
+        }
+    ],
+    "categories": [
+        "education",
+        "events"
+    ]
+}

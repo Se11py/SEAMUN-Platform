@@ -1,0 +1,11 @@
+env.js
+.env
+.env.local
+nextjs/.env.local
+nextjs/.env
+env.local.js
+node_modules/
+*.log
+.DS_Store
+
+

@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: SEAMUN API
+  version: 1.0.0
+  description: Public REST API for querying Moden United Nations conference data across Southeast Asia.
+
+servers:
+  - url: /api
+    description: Next.js API Routes
+
+components:
+  schemas:
+    Conference:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the conference
+        name:
+          type: string
+          description: Conference name
+        organization:
+          type: string
+          description: Hosting school or entity
+        location:
+          type: string
+          description: Geographical location (City, Country)
+        date:
+          type: string
+          format: date
+          description: Start date of the conference
+        end_date:
+          type: string
+          format: date
+          description: End date of the conference
+        status:
+          type: string
+          enum: [upcoming, previous, prospective]
+          description: Curren status category
+        registration_link:
+          type: string
+          description: URL to register
+        description:
+          type: string
+          description: Markdown/HTML description
+        image_url:
+          type: string
+          description: Banner image path or URL
+      required:
+        - id
+        - name
+        - organization
+        - location
+        - date
+        - status
+
+paths:
+  /conferences:
+    get:
+      summary: Retrieve all conferences
+      description: Returns an array of MUN conferences.
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Filter conferences by name, location, or organization.
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [upcoming, previous, prospective]
+          description: Filter by timeline status.
+      responses:
+        '200':
+          description: A JSON array of Conference objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conference'
+        '429':
+          description: Too Many Requests (Rate limited)
+        '500':
+          description: Internal Server Error
+
+  /conferences/{id}:
+    get:
+      summary: Retrieve a specific conference
+      description: Returns detailed data about a conference, including committees and awards.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The conference ID
+      responses:
+        '200':
+          description: detailed Conference object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conference'
+        '404':
+          description: Conference not found
+
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Pings the API and Neon Database to verify uptime and latency.
+      responses:
+        '200':
+          description: Health details payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: up
+                  timestamp:
+                    type: string
+                    format: date-time
+                  database:
+                    type: string
+                    example: connected
+                  latencyMs:
+                    type: integer
