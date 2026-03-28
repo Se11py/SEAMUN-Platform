@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Conference } from '@/lib/conferences-data';
+import { Conference, getConferenceStatus } from '@/lib/conferences-data';
 
 export interface ConferenceCardProps {
     conference: Conference;
@@ -9,6 +9,8 @@ export interface ConferenceCardProps {
 }
 
 export default function ConferenceCard({ conference, attendanceStatus }: ConferenceCardProps) {
+    const status = getConferenceStatus(conference);
+
     const formatDate = (dateStr: string | null | undefined) => {
         if (!dateStr) return '';
         const d = new Date(dateStr);
@@ -25,13 +27,13 @@ export default function ConferenceCard({ conference, attendanceStatus }: Confere
 
     return (
         <Link href={`/conference/${conference.id}/`} className="conference-card-link">
-            <div className={`conference-card ${conference.status}`}>
+            <div className={`conference-card ${status}`}>
                 {/* Header: Title + Badges */}
                 <div className="conference-header">
                     <h3 className="conference-title">{conference.name}</h3>
                     <div className="status-badges">
-                        <span className={`conference-status ${conference.status}`}>
-                            {conference.status === 'upcoming' ? 'UPCOMING' : 'PREVIOUS'}
+                        <span className={`conference-status ${status}`}>
+                            {status === 'upcoming' ? 'UPCOMING' : 'PREVIOUS'}
                         </span>
                         {attendanceStatus === 'attending' && (
                             <span className="attendance-status attending">

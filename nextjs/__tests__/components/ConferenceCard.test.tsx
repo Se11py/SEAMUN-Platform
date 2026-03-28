@@ -3,6 +3,19 @@ import { describe, it, expect, vi } from 'vitest';
 import ConferenceCard from '@/components/ConferenceCard';
 import { Conference } from '@/lib/conferences-data';
 
+function formatDateOnly(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const twoDaysAgo = new Date();
+twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
 // Mock the Link component since we're testing Next.js Link
 vi.mock('next/link', () => {
     return {
@@ -18,12 +31,12 @@ const mockConference: Conference = {
     organization: "St Andrews International School, Sukhumvit 107",
     location: "Bangkok, Thailand",
     countryCode: "TH",
-    startDate: "2026-03-07",
-    endDate: "2026-03-07",
+    startDate: formatDateOnly(tomorrow),
+    endDate: formatDateOnly(tomorrow),
     description: "The fourth annual MUN07 conference.",
     website: "https://mun07.org",
-    registrationDeadline: "2026-02-07",
-    positionPaperDeadline: "2026-02-14",
+    registrationDeadline: formatDateOnly(tomorrow),
+    positionPaperDeadline: formatDateOnly(tomorrow),
     status: "upcoming",
     size: "250+ attendees",
     generalEmail: "mun07sta@gmail.com",
@@ -56,17 +69,23 @@ describe('ConferenceCard', () => {
         expect(screen.getByText('St Andrews International School, Sukhumvit 107')).toBeInTheDocument();
         expect(screen.getByText(/Bangkok, Thailand/)).toBeInTheDocument();
         expect(screen.getByText('The fourth annual MUN07 conference.')).toBeInTheDocument();
-        // Since the component format dates, "2026-03-07" is formatted as "3/7/2026"
-        expect(screen.getByText(/3\/7\/2026/)).toBeInTheDocument();
+        expect(
+            screen.getAllByText(new RegExp(`${tomorrow.getMonth() + 1}/${tomorrow.getDate()}/${tomorrow.getFullYear()}`)).length
+        ).toBeGreaterThan(0);
     });
 
-    it('displays the UPCOMING badge for upcoming conferences', () => {
+    it('displays the UPCOMING badge for conferences whose dates are still ahead', () => {
         render(<ConferenceCard conference={mockConference} />);
         expect(screen.getByText('UPCOMING')).toBeInTheDocument();
     });
 
-    it('displays PREVIOUS badge for past conferences', () => {
-        const pastConf = { ...mockConference, status: 'previous' as const };
+    it('displays PREVIOUS badge for past conferences even if stored status is stale', () => {
+        const pastConf = {
+            ...mockConference,
+            startDate: formatDateOnly(twoDaysAgo),
+            endDate: formatDateOnly(twoDaysAgo),
+            status: 'upcoming' as const,
+        };
         render(<ConferenceCard conference={pastConf} />);
         expect(screen.getByText('PREVIOUS')).toBeInTheDocument();
     });

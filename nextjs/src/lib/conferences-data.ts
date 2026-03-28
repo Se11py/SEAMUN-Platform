@@ -390,16 +390,55 @@ export const MUN_CONFERENCES_DATA: Conference[] = [
 export const MUN_PROSPECTIVE_CONFERENCES_DATA: Conference[] = [];
 
 // Helper functions
+export function parseConferenceDate(dateStr: string | Date | null | undefined): Date | null {
+    if (!dateStr) return null;
+
+    if (dateStr instanceof Date) {
+        return Number.isNaN(dateStr.getTime()) ? null : dateStr;
+    }
+
+    const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (match) {
+        const [, year, month, day] = match;
+        return new Date(Number(year), Number(month) - 1, Number(day), 12);
+    }
+
+    const parsed = new Date(dateStr);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function getConferenceStatus<T extends Pick<Conference, 'endDate' | 'status'>>(conference: T): Conference['status'] {
+    const endDate = parseConferenceDate(conference.endDate);
+    if (!endDate) {
+        return conference.status;
+    }
+
+    const today = new Date();
+    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    return endDate < startOfToday ? 'previous' : 'upcoming';
+}
+
+export function withDerivedConferenceStatus<T extends Pick<Conference, 'endDate' | 'status'>>(conference: T): T {
+    return {
+        ...conference,
+        status: getConferenceStatus(conference),
+    };
+}
+
 export function getConferenceById(id: number): Conference | undefined {
     return MUN_CONFERENCES_DATA.find(conf => conf.id === id);
 }
 
 export function getUpcomingConferences(): Conference[] {
-    return MUN_CONFERENCES_DATA.filter(conf => conf.status === 'upcoming');
+    return MUN_CONFERENCES_DATA
+        .map(withDerivedConferenceStatus)
+        .filter(conf => conf.status === 'upcoming');
 }
 
 export function getPreviousConferences(): Conference[] {
-    return MUN_CONFERENCES_DATA.filter(conf => conf.status === 'previous');
+    return MUN_CONFERENCES_DATA
+        .map(withDerivedConferenceStatus)
+        .filter(conf => conf.status === 'previous');
 }
 
 export function getAllCommittees(): string[] {

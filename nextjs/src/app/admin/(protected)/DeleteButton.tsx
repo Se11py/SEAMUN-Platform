@@ -1,15 +1,18 @@
 'use client';
 import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { deleteConference } from '@/lib/admin-actions';
 
 export default function DeleteButton({ id }: { id: number }) {
     const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
     const handleDelete = () => {
         if (confirm('Are you sure you want to delete this conference? This action cannot be undone.')) {
             startTransition(async () => {
                 try {
                     await deleteConference(id);
+                    router.push('/admin?notice=Conference%20deleted.');
                 } catch (error) {
                     console.error('Failed to delete conference', error);
                     alert('Failed to delete conference. Make sure you have admin privileges.');
@@ -23,16 +26,9 @@ export default function DeleteButton({ id }: { id: number }) {
             onClick={handleDelete}
             disabled={isPending}
             title="Delete"
-            style={{
-                color: '#ef4444',
-                border: 'none',
-                background: 'none',
-                cursor: 'pointer',
-                opacity: isPending ? 0.5 : 1,
-                fontSize: '1.1rem'
-            }}
+            className="adm-btn adm-btn-ghost danger"
         >
-            <i className="fas fa-trash"></i>
+            <i className="fas fa-trash-alt"></i>
         </button>
     );
 }

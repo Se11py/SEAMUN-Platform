@@ -4,6 +4,16 @@ import ConferenceCard from '@/components/ConferenceCard';
 
 import { ConferenceCardProps } from '@/components/ConferenceCard';
 
+function formatDateOnly(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
 describe('ConferenceCard Component', () => {
     const defaultProps = {
         conference: {
@@ -11,8 +21,8 @@ describe('ConferenceCard Component', () => {
             name: 'Test Model UN',
             school: 'Test High School',
             location: 'Virtual',
-            startDate: '2024-10-01',
-            endDate: '2024-10-03',
+            startDate: formatDateOnly(tomorrow),
+            endDate: formatDateOnly(tomorrow),
             status: 'upcoming',
             organization: 'Test Org',
             countryCode: 'US',
@@ -53,6 +63,6 @@ describe('ConferenceCard Component', () => {
 
         // Multiple links might be rendered or structured, get the first one (the card wrapper)
         const links = screen.getAllByRole('link');
-        expect(links[0]).toHaveAttribute('href', '/conference/1');
+        expect(links[0]).toHaveAttribute('href', '/conference/1/');
     });
 });

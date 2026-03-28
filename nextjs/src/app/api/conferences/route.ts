@@ -2,6 +2,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { withDerivedConferenceStatus } from '@/lib/conferences-data';
 
 export async function GET(request: NextRequest) {
     try {
@@ -33,7 +34,7 @@ export async function GET(request: NextRequest) {
 
         const result = await db.query(query, params);
 
-        const mappedRows = result.rows.map(row => ({
+        const mappedRows = result.rows.map(row => withDerivedConferenceStatus({
             id: row.conference_id,
             name: row.name,
             organization: row.organization,

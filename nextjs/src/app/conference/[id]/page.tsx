@@ -9,6 +9,7 @@ import CopyButton from '@/components/CopyButton';
 import AttendanceButton from '@/components/AttendanceButton';
 import { getDb } from '@/lib/db';
 import { getConferenceAttendanceStatus } from '@/lib/actions';
+import { getConferenceStatus } from '@/lib/conferences-data';
 export async function generateStaticParams() {
     const db = getDb();
     const result = await db.query('SELECT conference_id FROM conferences');
@@ -78,7 +79,10 @@ export default async function ConferencePage({ params }: ConferencePageProps) {
         website: confData.website,
         registrationDeadline: confData.registration_deadline ? new Date(confData.registration_deadline).toDateString() : null,
         positionPaperDeadline: confData.position_paper_deadline ? new Date(confData.position_paper_deadline).toDateString() : null,
-        status: confData.status,
+        status: getConferenceStatus({
+            endDate: confData.end_date,
+            status: confData.status,
+        }),
         size: confData.size,
         generalEmail: confData.general_email,
         munAccount: confData.mun_account,

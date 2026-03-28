@@ -3,6 +3,7 @@
 import { getDb } from './db';
 import { currentUser } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
+import { getConferenceStatus } from './conferences-data';
 
 export interface User {
     user_id: string;
@@ -146,7 +147,13 @@ export async function getTrackedConferences(): Promise<TrackedConference[]> {
         ORDER BY a.updated_at DESC
     `, [user.id]);
 
-    return result.rows as TrackedConference[];
+    return result.rows.map((conference) => ({
+        ...conference,
+        status: getConferenceStatus({
+            endDate: conference.end_date,
+            status: conference.status,
+        }),
+    })) as TrackedConference[];
 }
 
 export async function getConferenceAttendanceStatus(conferenceId: number): Promise<'saved' | 'attending' | 'not-attending' | null> {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { Inter, Inter_Tight, Playfair_Display, Crimson_Text, Outfit } from "next/font/google";
+import { Inter, Inter_Tight, Playfair_Display, Crimson_Text, Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
@@ -9,6 +9,7 @@ const interTight = Inter_Tight({ subsets: ["latin"], display: "swap", variable: 
 const playfair = Playfair_Display({ subsets: ["latin"], display: "swap", variable: "--font-playfair" });
 const crimson = Crimson_Text({ weight: ["400", "600"], subsets: ["latin"], display: "swap", variable: "--font-crimson" });
 const outfit = Outfit({ subsets: ["latin"], display: "swap", variable: "--font-outfit" });
+const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: "--font-dm-sans" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://seamuns.site"),
@@ -73,7 +74,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning className={`${inter.variable} ${interTight.variable} ${playfair.variable} ${crimson.variable} ${outfit.variable}`}>
+      <html lang="en" suppressHydrationWarning className={`${inter.variable} ${interTight.variable} ${playfair.variable} ${crimson.variable} ${outfit.variable} ${dmSans.variable}`}>
         <head>
           {/* Critical font: preload for faster first render */}
           <link

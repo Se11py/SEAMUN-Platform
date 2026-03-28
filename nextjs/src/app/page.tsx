@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar';
 import ConferenceCard from '@/components/ConferenceCard';
 import ConferenceCardSkeleton from '@/components/ConferenceCardSkeleton';
 import EmptyState from '@/components/EmptyState';
-import { Conference } from '@/lib/conferences-data';
+import { Conference, getConferenceStatus, withDerivedConferenceStatus } from '@/lib/conferences-data';
 
 const TAB_KEYS = ['all', 'upcoming', 'previous', 'attending', 'attended'] as const;
 type TabKey = typeof TAB_KEYS[number];
@@ -50,7 +50,7 @@ export default function HomePage() {
           })
         ]);
 
-        setConferences(conferencesData);
+        setConferences(conferencesData.map(withDerivedConferenceStatus));
 
         const map: Record<number, 'saved' | 'attending' | 'not-attending'> = {};
         if (tracked && Array.isArray(tracked)) {
@@ -158,6 +158,8 @@ export default function HomePage() {
 
   const filteredConferences = useMemo(() => {
     return conferences.filter(conf => {
+      const status = getConferenceStatus(conf);
+
       // Search filter
       const searchLower = searchQuery.toLowerCase();
       const matchesSearch = !searchQuery ||
@@ -166,27 +168,27 @@ export default function HomePage() {
         conf.location.toLowerCase().includes(searchLower);
 
       // Status filter
-      const matchesStatus = statusFilter === 'all' || conf.status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
 
       // Location filter
       const matchesLocation = locationFilter === 'all' || conf.location === locationFilter;
 
       // Tab filter
       let matchesTab = true;
-      if (activeTab === 'upcoming') matchesTab = conf.status === 'upcoming';
-      if (activeTab === 'previous') matchesTab = conf.status === 'previous';
+      if (activeTab === 'upcoming') matchesTab = status === 'upcoming';
+      if (activeTab === 'previous') matchesTab = status === 'previous';
       if (activeTab === 'attending') matchesTab = attendanceMap[conf.id] === 'attending';
-      if (activeTab === 'attended') matchesTab = attendanceMap[conf.id] === 'attending' && conf.status === 'previous';
+      if (activeTab === 'attended') matchesTab = attendanceMap[conf.id] === 'attending' && status === 'previous';
 
       return matchesSearch && matchesStatus && matchesLocation && matchesTab;
     });
   }, [searchQuery, statusFilter, locationFilter, activeTab, attendanceMap]);
 
-  const upcomingCount = conferences.filter(c => c.status === 'upcoming').length;
-  const previousCount = conferences.filter(c => c.status === 'previous').length;
+  const upcomingCount = conferences.filter(c => getConferenceStatus(c) === 'upcoming').length;
+  const previousCount = conferences.filter(c => getConferenceStatus(c) === 'previous').length;
   const totalCount = conferences.length;
   const attendingCount = conferences.filter(c => attendanceMap[c.id] === 'attending').length;
-  const attendedCount = conferences.filter(c => attendanceMap[c.id] === 'attending' && c.status === 'previous').length;
+  const attendedCount = conferences.filter(c => attendanceMap[c.id] === 'attending' && getConferenceStatus(c) === 'previous').length;
 
   return (
     <>

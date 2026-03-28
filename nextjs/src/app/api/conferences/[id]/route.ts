@@ -2,6 +2,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { getConferenceStatus } from '@/lib/conferences-data';
 
 export async function GET(
     request: NextRequest,
@@ -36,6 +37,10 @@ export async function GET(
         conference.allocations = allocationsRes.rows.map((row: any) => row.country);
         conference.uniqueTopics = uniqueTopicsRes.rows.map((row: any) => row.topic);
         conference.availableAwards = availableAwardsRes.rows.map((row: any) => row.award_name);
+        conference.status = getConferenceStatus({
+            endDate: conference.end_date,
+            status: conference.status,
+        });
 
         return NextResponse.json(conference);
 
