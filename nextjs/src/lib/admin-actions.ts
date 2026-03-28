@@ -60,7 +60,7 @@ function isPressCommittee(name: string) {
 
 function normalizeChairRole(role: string, committeeName: string, index: number) {
     const allowedRoles = isPressCommittee(committeeName) ? [...PRESS_CHAIR_ROLES] : [...STANDARD_CHAIR_ROLES];
-    if (allowedRoles.includes(role as typeof allowedRoles[number])) {
+    if ((allowedRoles as readonly string[]).includes(role)) {
         return role;
     }
 

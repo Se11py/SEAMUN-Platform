@@ -51,7 +51,7 @@ function getDefaultRoleForIndex(name: string, index: number) {
 
 function normalizeChairRole(role: string, committeeName: string, index: number) {
     const allowedRoles = allowedRolesForCommittee(committeeName);
-    if (allowedRoles.includes(role as typeof allowedRoles[number])) {
+    if ((allowedRoles as readonly string[]).includes(role)) {
         return role;
     }
 
@@ -87,15 +87,20 @@ function parseChairInfo(chairInfo: string | null | undefined, committeeName: str
 
     if (matches.length === 0) {
         const defaultChairs = defaultChairsForCommittee(isPressCommittee(normalizedCommitteeName));
-        defaultChairs[0] = { ...defaultChairs[0], contact: chairInfo.trim() };
+        defaultChairs[0] = {
+            role: defaultChairs[0]?.role ?? getDefaultRoleForIndex(normalizedCommitteeName, 0),
+            contact: chairInfo.trim(),
+        };
         return defaultChairs;
     }
 
     const chairs = matches.map((match, index) => {
         const startIndex = match.index ?? 0;
         const contentStart = startIndex + match[0].length;
-        const contentEnd = index + 1 < matches.length ? (matches[index + 1].index ?? chairInfo.length) : chairInfo.length;
-        const rawRole = match[1] === 'Editor in Chief' ? 'Chief Editor' : match[1];
+        const nextMatch = matches[index + 1];
+        const contentEnd = nextMatch?.index ?? chairInfo.length;
+        const matchedRole = match[1] ?? getDefaultRoleForIndex(normalizedCommitteeName, index);
+        const rawRole = matchedRole === 'Editor in Chief' ? 'Chief Editor' : matchedRole;
         const contact = chairInfo
             .slice(contentStart, contentEnd)
             .replace(/^[,\s|]+|[,\s|]+$/g, '')
@@ -355,7 +360,7 @@ export default function ConferenceForm({
 
                 <div className="adm-form-field">
                     <label className="adm-label">Description</label>
-                    <textarea name="description" rows={4} defaultValue={initialData?.description} onChange={handleChange} onBlur={handleBlur} className="adm-textarea" />
+                    <textarea name="description" rows={4} defaultValue={initialData?.description} onChange={handleChange} onBlur={handleBlur} className={textareaCls('description')} />
                 </div>
             </div>
 
@@ -502,7 +507,7 @@ export default function ConferenceForm({
                                 rows={2}
                                 value={committee.topic}
                                 onChange={(e) => updateCommittee(index, 'topic', e.target.value)}
-                                className="adm-textarea"
+                                className={textareaCls(`committee_topic_${index}`)}
                                 placeholder="e.g. The Question of ..."
                             />
                         </div>
