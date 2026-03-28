@@ -12,8 +12,8 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
-  // Output minimal container traces
-  output: "standalone",
+  // Standalone is for Docker/self-hosted Node. Netlify's Next runtime needs the default build output.
+  ...(process.env.NETLIFY ? {} : { output: "standalone" as const }),
   // Enable trailing slashes for compatibility with original HTML paths
   trailingSlash: true,
 

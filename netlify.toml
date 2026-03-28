@@ -4,3 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Required for Next.js App Router / SSR on Netlify (routing is not a static export).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
