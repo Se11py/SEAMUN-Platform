@@ -36,12 +36,11 @@ export default function Navbar() {
                 {/* Brand */}
                 <Link href="/" className="navbar-brand" aria-label="SEAMUNs - Home">
                     <Image
-                        src="/assets/logo.png"
-                        alt=""
+                        src="/assets/seamun-logo.jpg"
+                        alt="SEAMUNS — Learn. Debate. Connect."
                         width={40}
                         height={40}
                         className="navbar-logo"
-                        aria-hidden="true"
                     />
                     <span className="navbar-title">SEAMUNs</span>
                 </Link>

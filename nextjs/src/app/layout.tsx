@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/logo.png",
+        url: "/assets/seamun-logo.jpg",
         width: 800,
-        height: 600,
-        alt: "SEAMUNs Logo",
+        height: 800,
+        alt: "SEAMUNS 2025 — Learn. Debate. Connect.",
       },
     ],
   },
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SEAMUNs | Model United Nations in South East Asia",
     description: "Track upcoming and previous Model United Nations conferences across South East Asia 🌏",
-    images: ["/assets/logo.png"],
+    images: ["/assets/seamun-logo.jpg"],
   },
   robots: {
     index: true,
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/assets/logo.png",
-    shortcut: "/assets/logo.png",
-    apple: "/assets/logo.png",
+    icon: "/assets/seamun-logo.jpg",
+    shortcut: "/assets/seamun-logo.jpg",
+    apple: "/assets/seamun-logo.jpg",
   },
   manifest: "/manifest.webmanifest",
   appleWebApp: {

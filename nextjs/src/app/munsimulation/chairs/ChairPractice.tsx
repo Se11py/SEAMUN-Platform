@@ -118,9 +118,7 @@ export default function ChairPractice() {
                         <BackToHomeButton />
                     </div>
                     <Link href="/" className={styles['site-logo-link']}>
-                        {/* Assuming logo.png is in public/logo.png, update path if needed */}
-                        {/* Next.js Image requires width/height. Using values from CSS or approximation */}
-                        <Image src="/logo.png" alt="MUN Simulation" className={styles['site-logo']} width={200} height={50} />
+                        <Image src="/assets/seamun-logo.jpg" alt="SEAMUNS" className={styles['site-logo']} width={44} height={44} />
                     </Link>
                     <div>
                         <h1>Chair{`'`}s Role</h1>

@@ -11,9 +11,9 @@ export default function manifest(): MetadataRoute.Manifest {
         theme_color: '#F0F4F8',
         icons: [
             {
-                src: '/assets/logo.png',
-                sizes: 'any',
-                type: 'image/png',
+                src: '/assets/seamun-logo.jpg',
+                sizes: '512x512',
+                type: 'image/jpeg',
             },
         ],
     };
