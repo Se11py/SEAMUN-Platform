@@ -1,6 +1,8 @@
 [build]
   base = "nextjs"
   command = "npm run build"
+  # Relative to `base`. Cannot equal the base folder itself (plugin error).
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
