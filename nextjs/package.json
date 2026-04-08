@@ -20,16 +20,19 @@
     "db:migrate": "dotenv -e .env.local -- node scripts/migrate.mjs"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.60",
     "@clerk/nextjs": "^6.37.3",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@neondatabase/serverless": "^1.0.2",
     "@sentry/nextjs": "^10.39.0",
+    "ai": "^6.0.152",
     "lru-cache": "^11.2.6",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "swagger-ui-react": "^5.31.2",
-    "yaml": "^2.8.2"
+    "yaml": "^2.8.2",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.1",

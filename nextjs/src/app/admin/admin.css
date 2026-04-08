@@ -27,7 +27,7 @@
     --admin-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
     --admin-shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.08);
     --admin-transition: 180ms ease;
-    --admin-font: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+    --admin-font: var(--font-crimson), serif;
 }
 
 /* ---- Layout ---- */
@@ -674,4 +674,57 @@
     .adm-chair-row {
         grid-template-columns: 1fr;
     }
+}
+
+/* ---- Accessibility Checkbox Cards ---- */
+.adm-checkbox-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--adm-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--adm-bg-input);
+    user-select: none;
+}
+
+.adm-checkbox-card:has(input:checked) {
+    border-color: var(--adm-accent);
+    background: color-mix(in srgb, var(--adm-accent) 6%, transparent);
+}
+
+.adm-checkbox-card input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--adm-accent);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.adm-checkbox-card-icon {
+    font-size: 1.5rem;
+    color: var(--adm-accent);
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+}
+
+.adm-checkbox-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.adm-checkbox-card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--adm-text);
+}
+
+.adm-checkbox-card-desc {
+    font-size: 0.8rem;
+    color: var(--adm-text-muted);
+    line-height: 1.4;
 }

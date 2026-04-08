@@ -60,6 +60,14 @@ export default function ResourcesPage() {
                     </div>
 
                     <div className="resource-card" style={{ padding: '24px', border: '1px solid var(--separator)', borderRadius: '8px' }}>
+                        <h3><i className="fas fa-file-alt" style={{ marginRight: '8px', color: 'var(--primary)' }}></i>Position Paper Archive</h3>
+                        <p style={{ margin: '12px 0' }}>Browse real position papers shared by the MUN community for inspiration, including award-winning examples.</p>
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            <Link href="/position-paper-archive" style={{ fontWeight: 600, color: 'var(--primary)' }}>Browse Archive</Link>
+                        </div>
+                    </div>
+
+                    <div className="resource-card" style={{ padding: '24px', border: '1px solid var(--separator)', borderRadius: '8px' }}>
                         <h3><i className="fas fa-balance-scale" style={{ marginRight: '8px', color: 'var(--primary)' }}></i>Rules & Conduct</h3>
                         <p style={{ margin: '12px 0' }}>Read up on delegate expectations, superlative awards, and formal conduct.</p>
                         <div style={{ display: 'flex', gap: '12px' }}>

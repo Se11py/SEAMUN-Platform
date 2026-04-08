@@ -33,7 +33,7 @@ export default function ConferenceError({
                 fontSize: '28px',
                 fontWeight: 700,
                 marginBottom: '12px',
-                fontFamily: 'var(--font-heading, "Clash Display", sans-serif)',
+                fontFamily: 'var(--font-heading, var(--font-playfair), serif)',
             }}>Conference not available</h1>
             <p style={{
                 color: 'var(--text-secondary)',

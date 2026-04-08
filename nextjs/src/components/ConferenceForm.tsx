@@ -424,6 +424,40 @@ export default function ConferenceForm({
                 </div>
             </div>
 
+            {/* ── Accessibility ── */}
+            <div className="adm-form-section">
+                <h3 className="adm-form-section-title"><i className="fas fa-universal-access"></i> Accessibility</h3>
+                <p className="adm-helper-text">Indicate which accessibility provisions are available at this conference.</p>
+
+                <div className="adm-form-row cols-2">
+                    <label className="adm-checkbox-card">
+                        <input
+                            type="checkbox"
+                            name="disabled_suitable"
+                            defaultChecked={!!initialData?.disabled_suitable}
+                        />
+                        <span className="adm-checkbox-card-icon"><i className="fas fa-wheelchair"></i></span>
+                        <span className="adm-checkbox-card-body">
+                            <span className="adm-checkbox-card-title">Wheelchair Accessible</span>
+                            <span className="adm-checkbox-card-desc">Venue has ramps, lifts, and accessible facilities</span>
+                        </span>
+                    </label>
+
+                    <label className="adm-checkbox-card">
+                        <input
+                            type="checkbox"
+                            name="sensory_suitable"
+                            defaultChecked={!!initialData?.sensory_suitable}
+                        />
+                        <span className="adm-checkbox-card-icon"><i className="fas fa-assistive-listening-systems"></i></span>
+                        <span className="adm-checkbox-card-body">
+                            <span className="adm-checkbox-card-title">Sensory Accessible</span>
+                            <span className="adm-checkbox-card-desc">Quiet spaces and sensory-friendly accommodations available</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
             {/* ── Unique Topics ── */}
             <div className="adm-form-section">
                 <h3 className="adm-form-section-title"><i className="fas fa-lightbulb"></i> Unique Topics</h3>

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import ConferenceCard from '@/components/ConferenceCard';
 import ConferenceCardSkeleton from '@/components/ConferenceCardSkeleton';
@@ -194,57 +193,37 @@ export default function HomePage() {
     <>
       <Navbar />
 
-      {/* Hero Banner */}
-      <div className="hero-banner-container">
-        <Image
-          src="/assets/mun-banner.jpeg"
-          alt="Model United Nations - Diplomacy in Art"
-          fill
-          className="hero-banner-image"
-          priority
-        />
-        <a href="#main-content" className="scroll-indicator" aria-label="Scroll down">
-          <i className="fas fa-chevron-down"></i>
-        </a>
-      </div>
-
-      {/* Main Tabs */}
+      {/* Page Intro + Main Tabs */}
       <div className="main-tabs-container">
-        <div className="main-tabs" ref={mainTabContainerRef}>
-          <div
-            className="main-tab-slider"
-            style={{
-              left: mainTabSliderStyle.left,
-              width: mainTabSliderStyle.width,
-            }}
-          />
-          <button
-            ref={(el) => { if (el) mainTabButtonRefs.current.set('conferences', el); }}
-            className={`main-tab-btn ${activeMainTab === 'conferences' ? 'active' : ''}`}
-            data-main-tab="conferences"
-            onClick={() => setActiveMainTab('conferences')}
-          >
-            <i className="fas fa-globe-americas"></i>
-            <span className="font-clash text-xl">Track Conferences</span>
-          </button>
-          <button
-            ref={(el) => { if (el) mainTabButtonRefs.current.set('simulation', el); }}
-            className={`main-tab-btn ${activeMainTab === 'simulation' ? 'active' : ''}`}
-            data-main-tab="simulation"
-            onClick={() => setActiveMainTab('simulation')}
-          >
-            <i className="fas fa-gamepad"></i>
-            <span className="font-clash text-xl">MUN Simulation</span>
-          </button>
+        <div className="main-page-intro">
+          <p className="main-page-eyebrow">South East Asia</p>
+          <h1 className="main-page-title">Model United Nations Network</h1>
+          <p className="main-page-subtitle">Track upcoming &amp; past conferences, practise debate skills, and connect with MUN communities across the region.</p>
+        </div>
+        <div className="main-tabs-row">
+          <div className="main-tabs" ref={mainTabContainerRef}>
+            <div className="main-tab-slider" style={{ left: mainTabSliderStyle.left, width: mainTabSliderStyle.width }} />
+            <button
+              ref={(el) => { if (el) mainTabButtonRefs.current.set('conferences', el); }}
+              className={`main-tab-btn ${activeMainTab === 'conferences' ? 'active' : ''}`}
+              data-main-tab="conferences"
+              onClick={() => setActiveMainTab('conferences')}
+            >
+              <i className="fas fa-globe-americas"></i>
+              <span>Track Conferences</span>
+            </button>
+            <button
+              ref={(el) => { if (el) mainTabButtonRefs.current.set('simulation', el); }}
+              className={`main-tab-btn ${activeMainTab === 'simulation' ? 'active' : ''}`}
+              data-main-tab="simulation"
+              onClick={() => setActiveMainTab('simulation')}
+            >
+              <i className="fas fa-gamepad"></i>
+              <span>MUN Simulation</span>
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Sub-navbar Tagline — only on Conferences tab */}
-      {activeMainTab === 'conferences' && (
-        <div className="sub-navbar-tagline">
-          Track upcoming and previous Model United Nations<br />conferences across South East Asia 🌏
-        </div>
-      )}
 
       <main className="main" id="main-content">
         <div className="container">
@@ -428,20 +407,63 @@ export default function HomePage() {
           <div id="simulationTab" className={`main-tab-content ${activeMainTab === 'simulation' ? 'active' : ''}`}>
             {/* Try It Out Section */}
             <section className="try-it-out">
-              <div className="try-it-out-card">
-                <div className="try-it-out-content">
-                  <div className="try-it-out-icon">
-                    <i className="fas fa-gamepad"></i>
+              <div className="tio-inner">
+                {/* Left — dark decorative panel */}
+                <div className="tio-visual" aria-hidden="true">
+                  <div className="tio-visual-ornament">
+                    <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      {/* Globe */}
+                      <circle cx="140" cy="140" r="100" stroke="#C9A227" strokeWidth="5" strokeOpacity="0.7"/>
+                      <circle cx="140" cy="140" r="72" stroke="#C9A227" strokeWidth="2.5" strokeOpacity="0.4"/>
+                      <ellipse cx="140" cy="140" rx="100" ry="42" stroke="#C9A227" strokeWidth="2.5" strokeOpacity="0.45"/>
+                      <ellipse cx="140" cy="140" rx="100" ry="68" stroke="#C9A227" strokeWidth="2" strokeOpacity="0.3"/>
+                      <ellipse cx="140" cy="140" rx="44" ry="100" stroke="#C9A227" strokeWidth="2" strokeOpacity="0.35"/>
+                      <line x1="40" y1="140" x2="240" y2="140" stroke="#C9A227" strokeWidth="2" strokeOpacity="0.35"/>
+                      <line x1="140" y1="40" x2="140" y2="240" stroke="#C9A227" strokeWidth="2" strokeOpacity="0.35"/>
+                      {/* Gavel */}
+                      <rect x="148" y="72" width="44" height="20" rx="4" fill="#C9A227" fillOpacity="0.82" transform="rotate(45 148 72)"/>
+                      <rect x="108" y="110" width="16" height="64" rx="4" fill="#C9A227" fillOpacity="0.6" transform="rotate(45 108 110)"/>
+                    </svg>
                   </div>
-                  <h2>Ready to Practice?</h2>
-                  <p>Experience a single-player MUN procedure simulator. Practice your debate skills, learn parliamentary procedure, and build confidence before your next conference.</p>
-                  <div className="try-it-out-features">
-                    <span><i className="fas fa-user"></i> Delegate Mode</span>
-                    <span><i className="fas fa-gavel"></i> Chair's Role</span>
-                    <span><i className="fas fa-trophy"></i> Earn Points</span>
+                  <div className="tio-visual-label">MUN Simulation</div>
+                  <div className="tio-visual-rule">
+                    <span/><i className="fas fa-star"/><span/>
                   </div>
-                  <a href="/munsimulation" className="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
-                    <i className="fas fa-play"></i> Start Simulation
+                  <p className="tio-visual-sub">Single-player practice mode</p>
+                </div>
+
+                {/* Right — content */}
+                <div className="tio-content">
+                  <p className="tio-eyebrow">Try It Out</p>
+                  <h2 className="tio-headline">Practice Before<br/>the Real Thing</h2>
+                  <p className="tio-body">Experience a single-player MUN procedure simulator. Build your debate skills, master parliamentary procedure, and walk into your next conference with confidence.</p>
+
+                  <div className="tio-features">
+                    <div className="tio-feature">
+                      <div className="tio-feature-icon"><i className="fas fa-user"/></div>
+                      <div>
+                        <strong>Delegate Mode</strong>
+                        <span>Practice floor debate &amp; motions</span>
+                      </div>
+                    </div>
+                    <div className="tio-feature">
+                      <div className="tio-feature-icon"><i className="fas fa-gavel"/></div>
+                      <div>
+                        <strong>Chair's Role</strong>
+                        <span>Run a committee session</span>
+                      </div>
+                    </div>
+                    <div className="tio-feature">
+                      <div className="tio-feature-icon"><i className="fas fa-trophy"/></div>
+                      <div>
+                        <strong>Earn Points</strong>
+                        <span>Track your progress</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="/munsimulation" className="tio-cta" target="_blank" rel="noopener noreferrer">
+                    Start Simulation <i className="fas fa-arrow-right"/>
                   </a>
                 </div>
               </div>

@@ -194,6 +194,8 @@ export async function createConference(formData: FormData) {
     const position_paper_deadline = normalizeOptionalString(formData.get('position_paper_deadline'));
     const general_email = normalizeOptionalString(formData.get('general_email'));
     const mun_account = normalizeOptionalString(formData.get('mun_account'));
+    const disabled_suitable = formData.get('disabled_suitable') === 'on';
+    const sensory_suitable = formData.get('sensory_suitable') === 'on';
     const price = (formData.get('price_per_delegate') as string) || null;
     const uniqueTopics = normalizeStringArray(formData.getAll('unique_topics'));
     const allocations = normalizeStringArray(formData.getAll('allocations'));
@@ -204,12 +206,14 @@ export async function createConference(formData: FormData) {
         INSERT INTO conferences (
           name, organization, location, country_code, start_date, end_date, 
           status, size, description, website, price_per_delegate,
-          registration_deadline, position_paper_deadline, general_email, mun_account
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+          registration_deadline, position_paper_deadline, general_email, mun_account,
+          disabled_suitable, sensory_suitable
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
         RETURNING conference_id
       `, [
             name, organization, location, country_code, start_date, end_date, status, size, description, website, price,
-            registration_deadline, position_paper_deadline, general_email, mun_account
+            registration_deadline, position_paper_deadline, general_email, mun_account,
+            disabled_suitable, sensory_suitable
         ]);
 
         const newConferenceId = result.rows[0].conference_id;
@@ -240,6 +244,8 @@ export async function updateConference(id: number, formData: FormData) {
     const position_paper_deadline = normalizeOptionalString(formData.get('position_paper_deadline'));
     const general_email = normalizeOptionalString(formData.get('general_email'));
     const mun_account = normalizeOptionalString(formData.get('mun_account'));
+    const disabled_suitable = formData.get('disabled_suitable') === 'on';
+    const sensory_suitable = formData.get('sensory_suitable') === 'on';
     const uniqueTopics = normalizeStringArray(formData.getAll('unique_topics'));
     const allocations = normalizeStringArray(formData.getAll('allocations'));
     const committees = parseCommittees(formData);
@@ -249,11 +255,13 @@ export async function updateConference(id: number, formData: FormData) {
         UPDATE conferences SET
           name=$1, organization=$2, location=$3, country_code=$4, start_date=$5, end_date=$6,
           status=$7, size=$8, description=$9, website=$10, price_per_delegate=$11,
-          registration_deadline=$12, position_paper_deadline=$13, general_email=$14, mun_account=$15
-        WHERE conference_id = $16
+          registration_deadline=$12, position_paper_deadline=$13, general_email=$14, mun_account=$15,
+          disabled_suitable=$16, sensory_suitable=$17
+        WHERE conference_id = $18
       `, [
             name, organization, location, country_code, start_date, end_date, status, size, description, website, price,
-            registration_deadline, position_paper_deadline, general_email, mun_account, id
+            registration_deadline, position_paper_deadline, general_email, mun_account,
+            disabled_suitable, sensory_suitable, id
         ]);
 
         await replaceConferenceRelations(db, id, { uniqueTopics, allocations, committees });
